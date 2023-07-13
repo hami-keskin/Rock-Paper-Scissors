@@ -36,13 +36,18 @@ contract RockPaperScissors {
         Move randomMove = getRandomMove();
         uint8 result = payoffMatrix[uint8(player.move)][uint8(randomMove)];
 
+        string memory resultMessage;
+
+        // Determine the winner based on the result
         if (result == 1) {
-            return "Player wins!";
+            resultMessage = "Player wins!";
         } else if (result == 2) {
-            return "Computer wins!";
+            resultMessage = "Computer wins!";
         } else {
-            return "It's a draw!";
+            resultMessage = "It's a draw!";
         }
+
+        return resultMessage;
     }
 
     function resetGame() public {
