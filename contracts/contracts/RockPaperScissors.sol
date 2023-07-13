@@ -42,10 +42,10 @@ contract RockPaperScissors {
     function play(Move _move) external {
         require(_move >= Move.Rock && _move <= Move.Scissors, "Invalid move.");
 
-        // Clear player's move and played status
+        // Clear player's address, move, and played status
         clearPlayer();
 
-        // Assign the new move and mark player as played
+        // Assign the new address, move, and mark player as played
         player.addr = msg.sender;
         player.move = _move;
         player.played = true;
@@ -74,7 +74,7 @@ contract RockPaperScissors {
     }
 
     function resetGame() public onlyPlayed {
-        delete player;
+        clearPlayer();
         emit GameReset();
     }
 
@@ -86,6 +86,7 @@ contract RockPaperScissors {
     }
 
     function clearPlayer() private {
+        player.addr = address(0);
         player.move = Move.None;
         player.played = false;
     }
