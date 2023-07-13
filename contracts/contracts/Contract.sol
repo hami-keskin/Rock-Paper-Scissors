@@ -19,6 +19,7 @@ contract RockPaperScissors {
     Player public player;
 
     event GameResult(string result);
+    event GameReset();
 
     modifier onlyNotPlayed() {
         require(!player.played, "Already played.");
@@ -69,6 +70,7 @@ contract RockPaperScissors {
 
     function resetGame() public onlyPlayed {
         delete player;
+        emit GameReset();
     }
 
     function getRandomMove() private view returns (Move) {
