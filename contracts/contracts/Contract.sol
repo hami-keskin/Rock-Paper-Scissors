@@ -68,9 +68,7 @@ contract RockPaperScissors {
     }
 
     function resetGame() public onlyPlayed {
-        player.addr = address(0);
-        player.move = Move.None;
-        player.played = false;
+        delete player;
     }
 
     function getRandomMove() private view returns (Move) {
