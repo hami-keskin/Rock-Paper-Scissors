@@ -18,22 +18,39 @@ contract RockPaperScissors {
 
     Player public player;
 
-    function play(Move _move) external {
-        require(_move >= Move.Rock && _move <= Move.Scissors, "Invalid move.");
+    event GameResult(string result);
+
+    modifier onlyNotPlayed() {
+        require(!player.played, "Already played.");
+        _;
+    }
+
+    modifier onlyPlayer() {
         require(
             player.addr == address(0) || player.addr == msg.sender,
             "Not the player."
         );
-        require(!player.played, "Already played.");
+        _;
+    }
 
+    modifier onlyPlayed() {
+        require(player.played, "Player has not played yet.");
+        _;
+    }
+
+    function play(Move _move) external onlyNotPlayed {
+        require(_move >= Move.Rock && _move <= Move.Scissors, "Invalid move.");
         player.addr = msg.sender;
         player.move = _move;
         player.played = true;
     }
 
-    function determineResult() external view returns (string memory) {
-        require(player.played, "Player has not played yet.");
-
+    function determineResult()
+        external
+        view
+        onlyPlayed
+        returns (string memory)
+    {
         Move randomMove = getRandomMove();
         uint8 result = payoffMatrix[uint8(player.move)][uint8(randomMove)];
 
@@ -50,10 +67,10 @@ contract RockPaperScissors {
         return resultMessage;
     }
 
-    function resetGame() external {
-        require(player.played, "Player has not played yet.");
-
-        delete player;
+    function resetGame() public onlyPlayed {
+        player.addr = address(0);
+        player.move = Move.None;
+        player.played = false;
     }
 
     function getRandomMove() private view returns (Move) {
