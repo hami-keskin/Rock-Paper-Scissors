@@ -9,6 +9,7 @@ contract RockPaperScissors {
         Scissors
     }
     uint8[3][3] private payoffMatrix = [[0, 2, 1], [1, 0, 2], [2, 1, 0]];
+
     struct Player {
         address addr;
         Move move;
@@ -38,7 +39,6 @@ contract RockPaperScissors {
 
         string memory resultMessage;
 
-        // Determine the winner based on the result
         if (result == 1) {
             resultMessage = "Player wins!";
         } else if (result == 2) {
@@ -50,12 +50,10 @@ contract RockPaperScissors {
         return resultMessage;
     }
 
-    function resetGame() public {
+    function resetGame() external {
         require(player.played, "Player has not played yet.");
 
-        player.addr = address(0);
-        player.move = Move.None;
-        player.played = false;
+        delete player;
     }
 
     function getRandomMove() private view returns (Move) {
