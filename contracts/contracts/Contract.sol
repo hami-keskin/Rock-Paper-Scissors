@@ -17,7 +17,7 @@ contract RockPaperScissors {
 
     Player public player;
 
-    function play(Move _move) public {
+    function play(Move _move) external {
         require(_move >= Move.Rock && _move <= Move.Scissors, "Invalid move.");
         require(
             player.addr == address(0) || player.addr == msg.sender,
@@ -30,7 +30,7 @@ contract RockPaperScissors {
         player.played = true;
     }
 
-    function determineResult() public view returns (string memory) {
+    function determineResult() external view returns (string memory) {
         require(player.played, "Player has not played yet.");
 
         Move randomMove = getRandomMove();
