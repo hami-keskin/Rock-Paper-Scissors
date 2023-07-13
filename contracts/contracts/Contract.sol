@@ -38,6 +38,14 @@ contract RockPaperScissors {
         }
     }
     
+    function resetGame() public {
+        require(player.played, "Player has not played yet.");
+        
+        player.addr = address(0);
+        player.move = Move.None;
+        player.played = false;
+    }
+    
     function getRandomMove() internal view returns (uint) {
         uint randomNumber = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 3;
         return randomNumber;
