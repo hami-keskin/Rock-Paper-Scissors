@@ -39,8 +39,13 @@ contract RockPaperScissors {
         _;
     }
 
-    function play(Move _move) external onlyNotPlayed {
+    function play(Move _move) external {
         require(_move >= Move.Rock && _move <= Move.Scissors, "Invalid move.");
+
+        // Clear player's move and played status
+        clearPlayer();
+
+        // Assign the new move and mark player as played
         player.addr = msg.sender;
         player.move = _move;
         player.played = true;
@@ -78,5 +83,10 @@ contract RockPaperScissors {
             keccak256(abi.encodePacked(block.timestamp, msg.sender))
         ) % 3;
         return Move(randomNumber);
+    }
+
+    function clearPlayer() private {
+        player.move = Move.None;
+        player.played = false;
     }
 }
