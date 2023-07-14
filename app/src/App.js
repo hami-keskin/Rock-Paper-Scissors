@@ -1,5 +1,5 @@
 import { Sepolia } from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract, useContractRead } from "@thirdweb-dev/react";
+import { ThirdwebProvider, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react";
 
 function App() {
   return (
@@ -25,6 +25,34 @@ function Component() {
     "player",
     [/* Pass your arguments here */]
   );
+
+  const { mutateAsync: play, isLoading: playLoading } = useContractWrite(
+    contract,
+    "play"
+  );
+
+  const { mutateAsync: resetGame, isLoading: resetLoading } = useContractWrite(
+    contract,
+    "resetGame"
+  );
+
+  const handlePlay = async (move) => {
+    try {
+      const data = await play({ args: [move] });
+      console.info("contract call success", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  };
+
+  const handleResetGame = async () => {
+    try {
+      const data = await resetGame({ args: [/* Pass your arguments here */] });
+      console.info("contract call success", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  };
 
   return (
     <div>
