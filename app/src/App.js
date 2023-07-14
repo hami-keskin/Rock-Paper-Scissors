@@ -5,6 +5,14 @@ import {
   useContractWrite,
 } from "@thirdweb-dev/react";
 
+function PlayButton({ move, onClick, disabled }) {
+  return (
+    <button onClick={onClick} disabled={disabled}>
+      Play {move}
+    </button>
+  );
+}
+
 function App() {
   const [result, setResult] = useState(null);
   const { contract, isLoading } = useContract(
@@ -33,7 +41,7 @@ function App() {
     "resetGame"
   );
 
-  const handlePlay = async (move) => {
+  const playMove = async (move) => {
     try {
       const data = await play({ args: [move] });
       console.info("contract call success", data);
@@ -57,33 +65,37 @@ function App() {
 
   return (
     <div>
-      <>
-        <h1>Rock Paper Scissors Game</h1>
-        <button onClick={() => handlePlay(1)} disabled={playLoading}>
-          Play Rock
-        </button>
-        <button onClick={() => handlePlay(2)} disabled={playLoading}>
-          Play Paper
-        </button>
-        <button onClick={() => handlePlay(3)} disabled={playLoading}>
-          Play Scissors
-        </button>
+      <h1>Rock Paper Scissors Game</h1>
+      <PlayButton
+        move="Rock"
+        onClick={() => playMove(1)}
+        disabled={playLoading}
+      />
+      <PlayButton
+        move="Paper"
+        onClick={() => playMove(2)}
+        disabled={playLoading}
+      />
+      <PlayButton
+        move="Scissors"
+        onClick={() => playMove(3)}
+        disabled={playLoading}
+      />
 
-        <button onClick={handleResetGame} disabled={resetLoading}>
-          Reset Game
-        </button>
+      <button onClick={handleResetGame} disabled={resetLoading}>
+        Reset Game
+      </button>
 
-        {resultLoading || playerLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <p>Result: {determineResult}</p>
-            <p>Player: {player?.addr}</p>
-            <p>Move: {player?.move}</p>
-            <p>Played: {player?.played.toString()}</p>
-          </>
-        )}
-      </>
+      {resultLoading || playerLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <p>Result: {determineResult}</p>
+          <p>Player: {player?.addr}</p>
+          <p>Move: {player?.move}</p>
+          <p>Played: {player?.played.toString()}</p>
+        </>
+      )}
     </div>
   );
 }
