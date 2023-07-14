@@ -1,5 +1,5 @@
 import { Sepolia } from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+import { ThirdwebProvider, useContract, useContractRead } from "@thirdweb-dev/react";
 
 function App() {
   return (
@@ -12,6 +12,18 @@ function App() {
 function Component() {
   const { contract, isLoading } = useContract(
     "0x3D01d7C35143f47bdDDaC0324a38A532e88E1B6a"
+  );
+
+  const { data: determineResult, isLoading: resultLoading } = useContractRead(
+    contract,
+    "determineResult",
+    [/* Pass your arguments here */]
+  );
+
+  const { data: player, isLoading: playerLoading } = useContractRead(
+    contract,
+    "player",
+    [/* Pass your arguments here */]
   );
 
   return (
