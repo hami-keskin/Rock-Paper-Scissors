@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   useContract,
   useContractRead,
@@ -14,8 +13,7 @@ function PlayButton({ move, onClick, disabled }) {
 }
 
 function App() {
-  const [result, setResult] = useState(null);
-  const { contract, isLoading } = useContract(
+  const { contract } = useContract(
     "0x3D01d7C35143f47bdDDaC0324a38A532e88E1B6a"
   );
 
@@ -43,8 +41,8 @@ function App() {
 
   const playMove = async (move) => {
     try {
-      const data = await play({ args: [move] });
-      console.info("contract call success", data);
+      await play({ args: [move] });
+      console.info("contract call success");
     } catch (err) {
       console.error("contract call failure", err);
     }
@@ -52,12 +50,8 @@ function App() {
 
   const handleResetGame = async () => {
     try {
-      const data = await resetGame({
-        args: [
-          /* Pass your arguments here */
-        ],
-      });
-      console.info("contract call success", data);
+      await resetGame({ args: [] });
+      console.info("contract call success");
     } catch (err) {
       console.error("contract call failure", err);
     }
