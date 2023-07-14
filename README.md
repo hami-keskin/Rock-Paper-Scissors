@@ -1,5 +1,3 @@
-
-```
 # Rock Paper Scissors Game with thirdweb
 
 This is a simple Rock Paper Scissors game built using thirdweb and Solidity smart contracts. Players can choose their move (Rock, Paper, or Scissors) and play against the computer. The smart contract handles the game logic and determines the winner.
@@ -69,4 +67,3 @@ For any questions or inquiries, please join our Discord community at [https://di
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
