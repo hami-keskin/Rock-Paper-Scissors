@@ -1,5 +1,10 @@
 import { Sepolia } from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  useContract,
+  useContractRead,
+  useContractWrite,
+} from "@thirdweb-dev/react";
 
 function App() {
   return (
@@ -17,13 +22,17 @@ function Component() {
   const { data: determineResult, isLoading: resultLoading } = useContractRead(
     contract,
     "determineResult",
-    [/* Pass your arguments here */]
+    [
+      /* Pass your arguments here */
+    ]
   );
 
   const { data: player, isLoading: playerLoading } = useContractRead(
     contract,
     "player",
-    [/* Pass your arguments here */]
+    [
+      /* Pass your arguments here */
+    ]
   );
 
   const { mutateAsync: play, isLoading: playLoading } = useContractWrite(
@@ -47,7 +56,11 @@ function Component() {
 
   const handleResetGame = async () => {
     try {
-      const data = await resetGame({ args: [/* Pass your arguments here */] });
+      const data = await resetGame({
+        args: [
+          /* Pass your arguments here */
+        ],
+      });
       console.info("contract call success", data);
     } catch (err) {
       console.error("contract call failure", err);
@@ -58,6 +71,30 @@ function Component() {
     <div>
       <>
         <h1>Rock Paper Scissors Game</h1>
+        <button onClick={() => handlePlay("Rock")} disabled={playLoading}>
+          Play Rock
+        </button>
+        <button onClick={() => handlePlay("Paper")} disabled={playLoading}>
+          Play Paper
+        </button>
+        <button onClick={() => handlePlay("Scissors")} disabled={playLoading}>
+          Play Scissors
+        </button>
+
+        <button onClick={handleResetGame} disabled={resetLoading}>
+          Reset Game
+        </button>
+
+        {resultLoading || playerLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <p>Result: {determineResult}</p>
+            <p>Player: {player?.addr}</p>
+            <p>Move: {player?.move}</p>
+            <p>Played: {player?.played.toString()}</p>
+          </>
+        )}
       </>
     </div>
   );
