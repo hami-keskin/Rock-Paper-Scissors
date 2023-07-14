@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   useContract,
   useContractRead,
@@ -5,6 +6,7 @@ import {
 } from "@thirdweb-dev/react";
 
 function App() {
+  const [result, setResult] = useState(null);
   const { contract, isLoading } = useContract(
     "0x3D01d7C35143f47bdDDaC0324a38A532e88E1B6a"
   );
@@ -12,17 +14,13 @@ function App() {
   const { data: determineResult, isLoading: resultLoading } = useContractRead(
     contract,
     "determineResult",
-    [
-      /* Pass your arguments here */
-    ]
+    []
   );
 
   const { data: player, isLoading: playerLoading } = useContractRead(
     contract,
     "player",
-    [
-      /* Pass your arguments here */
-    ]
+    []
   );
 
   const { mutateAsync: play, isLoading: playLoading } = useContractWrite(
@@ -61,13 +59,13 @@ function App() {
     <div>
       <>
         <h1>Rock Paper Scissors Game</h1>
-        <button onClick={() => handlePlay("Rock")} disabled={playLoading}>
+        <button onClick={() => handlePlay(1)} disabled={playLoading}>
           Play Rock
         </button>
-        <button onClick={() => handlePlay("Paper")} disabled={playLoading}>
+        <button onClick={() => handlePlay(2)} disabled={playLoading}>
           Play Paper
         </button>
-        <button onClick={() => handlePlay("Scissors")} disabled={playLoading}>
+        <button onClick={() => handlePlay(3)} disabled={playLoading}>
           Play Scissors
         </button>
 
